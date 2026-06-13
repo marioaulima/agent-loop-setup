@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PR Briefing — [ISSUE-KEY]</title>
+    <style>
+      :root { color-scheme: light dark; }
+      body {
+        font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+        max-width: 56rem;
+        margin: 0 auto;
+        padding: 2rem 1.25rem 4rem;
+        color: #1a1a1a;
+        background: #fff;
+      }
+      @media (prefers-color-scheme: dark) {
+        body { color: #e8e8e8; background: #141414; }
+        a { color: #7ab8ff; }
+        .meta, code { background: #222; }
+      }
+      h1 { font-size: 1.7rem; margin: 0 0 .25rem; }
+      h2 { font-size: 1.2rem; margin: 2rem 0 .5rem; border-bottom: 1px solid #8884; padding-bottom: .25rem; }
+      .lede { font-size: 1.1rem; color: #555; margin: 0 0 1rem; }
+      @media (prefers-color-scheme: dark) { .lede { color: #aaa; } }
+      .meta { font-size: .85rem; background: #f3f3f3; border-radius: .5rem; padding: .75rem 1rem; }
+      .meta div { margin: .15rem 0; }
+      code { background: #f0f0f0; padding: .1rem .35rem; border-radius: .25rem; font-size: .9em; }
+      ul, ol { padding-left: 1.25rem; }
+      li { margin: .3rem 0; }
+      img { max-width: 100%; border: 1px solid #8884; border-radius: .5rem; }
+      .ok { color: #1a7f37; font-weight: 600; }
+      .warn { color: #b35900; font-weight: 600; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>[PR title]</h1>
+        <p class="lede">[One-sentence summary of what changes for the user.]</p>
+        <div class="meta">
+          <div><strong>Issue:</strong> [ISSUE-KEY] — [issue link]</div>
+          <div><strong>Branch:</strong> <code>[agent/issue-key-slug]</code></div>
+          <div><strong>PR:</strong> [PR link]</div>
+        </div>
+      </header>
+
+      <section>
+        <h2>Context</h2>
+        <p>[What problem existed and why this issue matters. The product/user situation before this change.]</p>
+      </section>
+
+      <section>
+        <h2>What changed</h2>
+        <p>[Behavior-level explanation — what someone experiences differently now, not which files moved.]</p>
+      </section>
+
+      <section>
+        <h2>How it works now</h2>
+        <p>[Flow / state / data explanation. The mental model a reviewer needs.]</p>
+      </section>
+
+      <section>
+        <h2>Implementation decisions</h2>
+        <ul>
+          <li>[Decision] — [reason it was chosen over the alternative].</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>How to review</h2>
+        <ul>
+          <li>[Conceptual review area — what to scrutinise and why. No line numbers.]</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Human QA walkthrough</h2>
+        <ol>
+          <li>[Reproducible step.]</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Verification</h2>
+        <ul>
+          <li><code>[command]</code> — <span class="ok">passed</span></li>
+          <!-- Use class="warn" + a note for anything not run. Never invent results. -->
+        </ul>
+      </section>
+
+      <section>
+        <h2>Screenshots</h2>
+        <p>[Embed images as self-contained data URIs, or explain why screenshots are not practical. Never fabricate.]</p>
+      </section>
+
+      <section>
+        <h2>Risks and non-goals</h2>
+        <p><strong>Risks:</strong> [Known risks and caveats that remain.]</p>
+        <p><strong>Non-goals:</strong> [What was intentionally not changed in this PR.]</p>
+      </section>
+    </main>
+  </body>
+</html>
