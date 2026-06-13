@@ -27,6 +27,17 @@ Tracker is Linear via the Linear MCP (`mcp__claude_ai_Linear__*`), never `gh`/sh
 
 **Do not run** to implement features, expand scope, pick another issue, or merge.
 
+## Commit behavior
+
+Before opening the PR, ensure implementation changes and the briefing artifact are committed.
+
+If changes are uncommitted:
+1. Review `git status`.
+2. Stage only issue-related files.
+3. Commit with message: `<ISSUE-KEY>: <short behavior summary>`.
+4. Do not include unrelated files.
+5. If unrelated changes exist, stop and ask.
+
 ## Preflight (stop if any fails)
 
 ```txt

@@ -12,8 +12,6 @@ The skills speak in terms of five canonical triage roles. This file maps those r
 
 When a skill mentions a role, use the corresponding label string from this table.
 
-Edit the right-hand column to match whatever vocabulary you actually use.
-
 # Context Labels
 
 These labels do not replace Linear statuses. They describe constraints, risks, or workflow requirements.

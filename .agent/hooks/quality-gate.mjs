@@ -45,6 +45,7 @@ for (const [name, command] of required) {
 checkNoFocusedTests();
 checkNoEnvChanges();
 checkBriefingArtifact();
+checkImpeccableIfFrontendChanged();
 
 if (failures.length > 0) {
   console.error(`\nQuality gate failed: ${failures.join(", ")}`);
@@ -74,7 +75,7 @@ function changedFiles() {
     }).trim();
 
     return execSync(
-      `git diff --name-only ${base}...HEAD && git diff --name-only`,
+      `git diff --name-only ${base}...HEAD && git diff --name-only && git diff --cached --name-only`,
       {
         encoding: "utf8",
         shell: true,
@@ -84,10 +85,13 @@ function changedFiles() {
       .map((x) => x.trim())
       .filter(Boolean);
   } catch {
-    return execSync("git diff --name-only HEAD && git diff --name-only", {
-      encoding: "utf8",
-      shell: true,
-    })
+    return execSync(
+      "git diff --name-only HEAD && git diff --name-only && git diff --cached --name-only",
+      {
+        encoding: "utf8",
+        shell: true,
+      },
+    )
       .split("\n")
       .map((x) => x.trim())
       .filter(Boolean);
@@ -130,4 +134,22 @@ function checkBriefingArtifact() {
   if (!hasBriefing) {
     failures.push("missing docs/pr-briefings/*.html artifact");
   }
+}
+
+function checkImpeccableIfFrontendChanged() {
+  if (!fs.existsSync(".agent/state/frontend-changed")) return;
+
+  if (hasScript("impeccable")) {
+    run("impeccable", script("impeccable"));
+    return;
+  }
+
+  if (hasScript("ui:check")) {
+    run("ui:check", script("ui:check"));
+    return;
+  }
+
+  console.warn(
+    "Frontend changed, but no Impeccable/UI check script was found.",
+  );
 }

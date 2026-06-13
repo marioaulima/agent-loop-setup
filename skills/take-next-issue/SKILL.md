@@ -59,7 +59,7 @@ Reject (skip to next, or stop) if any disqualifier from **Eligible issue criteri
 The issue body must contain all of these, and none clearly empty:
 
 ```md
-## Parent
+## Parent (optional if parent does not exist)
 ## What to build
 ## Acceptance criteria
 ## ATDD plan

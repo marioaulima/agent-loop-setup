@@ -26,13 +26,15 @@
     ],
     "PostToolUse": [
       {
+        "matcher": "Write|Edit",
         "hooks": [
           {
-            "command": "pnpm run fix --skip=correctness/noUnusedImports",
-            "type": "command"
+            "type": "command",
+            "command": "${CLAUDE_PROJECT_DIR}/.agent/hooks/post-edit-format.mjs",
+            "args": [],
+            "timeout": 120
           }
-        ],
-        "matcher": "Write|Edit"
+        ]
       },
       {
         "matcher": "Write|Edit|MultiEdit",
