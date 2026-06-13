@@ -6,7 +6,7 @@ The skills speak in terms of five canonical triage roles. This file maps those r
 | -------------------------- | -------------------- | ------- |
 | `needs-triage`             | `needs-triage`       | Needs maintainer evaluation |
 | `needs-info`               | `needs-info`         | Waiting for more information or clarification |
-| `ready-for-agent`          | `ready-for-agent`    | Fully specified, has ATDD plan, ready for AFK agent |
+| `ready-for-agent`          | `ready-for-agent`    | Fully specified, has ATDD plan, ready for agent execution |
 | `ready-for-human`          | `ready-for-human`    | Requires human implementation or taste/product judgment |
 | `wontfix`                  | `wontfix`            | Will not be actioned |
 
