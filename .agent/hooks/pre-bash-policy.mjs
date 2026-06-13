@@ -1,0 +1,61 @@
+#!/usr/bin/env node
+
+import { execFileSync } from "node:child_process";
+
+const input = JSON.parse(await readStdin());
+const command = input?.tool_input?.command ?? "";
+
+function block(reason) {
+  console.error(reason);
+  process.exit(2);
+}
+
+function runQualityGate() {
+  try {
+    execFileSync("node", [".agent/hooks/quality-gate.mjs"], {
+      stdio: "inherit",
+      cwd: process.cwd(),
+    });
+  } catch {
+    block("Quality gate failed. Fix checks before opening/updating a PR.");
+  }
+}
+
+const dangerousPatterns = [
+  /\brm\s+-rf\s+(\/|\.)\b/,
+  /\bgit\s+reset\s+--hard\b/,
+  /\bgit\s+clean\s+-fd\b/,
+  /\bgit\s+push\s+--force\b/,
+  /\bgh\s+pr\s+merge\b/,
+  /\bsudo\b/,
+  /\bchmod\s+-R\s+777\b/,
+  /\bdd\s+if=/,
+  /\bmkfs\b/,
+  /\bcurl\b.*\|\s*(sh|bash)\b/,
+  /\bwget\b.*\|\s*(sh|bash)\b/,
+];
+
+for (const pattern of dangerousPatterns) {
+  if (pattern.test(command)) {
+    block(`Blocked dangerous command by repo policy: ${command}`);
+  }
+}
+
+if (/\bgh\s+pr\s+create\b/.test(command)) {
+  runQualityGate();
+}
+
+if (/\bgh\s+pr\s+merge\b/.test(command)) {
+  block("Agents must not merge PRs. Human review/merge is required.");
+}
+
+process.exit(0);
+
+function readStdin() {
+  return new Promise((resolve) => {
+    let data = "";
+    process.stdin.setEncoding("utf8");
+    process.stdin.on("data", (chunk) => (data += chunk));
+    process.stdin.on("end", () => resolve(data || "{}"));
+  });
+}
