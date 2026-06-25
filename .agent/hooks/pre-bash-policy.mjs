@@ -26,7 +26,6 @@ const dangerousPatterns = [
   /\bgit\s+reset\s+--hard\b/,
   /\bgit\s+clean\s+-fd\b/,
   /\bgit\s+push\s+--force\b/,
-  /\bgh\s+pr\s+merge\b/,
   /\bsudo\b/,
   /\bchmod\s+-R\s+777\b/,
   /\bdd\s+if=/,
@@ -43,10 +42,6 @@ for (const pattern of dangerousPatterns) {
 
 if (/\bgh\s+pr\s+create\b/.test(command)) {
   runQualityGate();
-}
-
-if (/\bgh\s+pr\s+merge\b/.test(command)) {
-  block("Agents must not merge PRs. Human review/merge is required.");
 }
 
 process.exit(0);

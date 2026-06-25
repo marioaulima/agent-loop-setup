@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-import fs from "node:fs";
 import { execSync } from "node:child_process";
+import fs from "node:fs";
 
 const pkg = readJson("package.json");
 const scripts = pkg?.scripts ?? {};
@@ -28,11 +28,20 @@ function script(name) {
 
 const required = [];
 
-if (hasScript("typecheck")) required.push(["typecheck", script("typecheck")]);
-if (hasScript("lint")) required.push(["lint", script("lint")]);
-if (hasScript("test:unit")) required.push(["test:unit", script("test:unit")]);
-if (hasScript("test:integration"))
+if (hasScript("typecheck")) {
+  required.push(["typecheck", script("typecheck")]);
+}
+if (hasScript("lint")) {
+  required.push(["lint", script("lint")]);
+}
+if (hasScript("test:unit")) {
+  required.push(["test:unit", script("test:unit")]);
+}
+if (hasScript("test:integration:podman")) {
+  required.push(["test:integration:podman", script("test:integration:podman")]);
+} else if (hasScript("test:integration")) {
   required.push(["test:integration", script("test:integration")]);
+}
 
 if (!required.length && hasScript("test")) {
   required.push(["test", script("test")]);
@@ -56,14 +65,22 @@ console.log("\nQuality gate passed.");
 process.exit(0);
 
 function detectPackageManager() {
-  if (fs.existsSync("pnpm-lock.yaml")) return "pnpm";
-  if (fs.existsSync("yarn.lock")) return "yarn";
-  if (fs.existsSync("bun.lockb")) return "bun";
+  if (fs.existsSync("pnpm-lock.yaml")) {
+    return "pnpm";
+  }
+  if (fs.existsSync("yarn.lock")) {
+    return "yarn";
+  }
+  if (fs.existsSync("bun.lockb")) {
+    return "bun";
+  }
   return "npm";
 }
 
 function readJson(file) {
-  if (!fs.existsSync(file)) return null;
+  if (!fs.existsSync(file)) {
+    return null;
+  }
   return JSON.parse(fs.readFileSync(file, "utf8"));
 }
 
@@ -104,7 +121,9 @@ function checkNoFocusedTests() {
   );
 
   for (const file of files) {
-    if (!fs.existsSync(file)) continue;
+    if (!fs.existsSync(file)) {
+      continue;
+    }
     const content = fs.readFileSync(file, "utf8");
     if (/\b(describe|it|test)\.only\b/.test(content)) {
       failures.push(`focused test in ${file}`);
@@ -125,7 +144,9 @@ function checkBriefingArtifact() {
     /^(app|src|pages|components|features|server|api|packages)\//.test(f),
   );
 
-  if (!productFiles.length) return;
+  if (!productFiles.length) {
+    return;
+  }
 
   const hasBriefing = files.some((f) =>
     /^docs\/pr-briefings\/.+\.html$/.test(f),
@@ -137,7 +158,9 @@ function checkBriefingArtifact() {
 }
 
 function checkImpeccableIfFrontendChanged() {
-  if (!fs.existsSync(".agent/state/frontend-changed")) return;
+  if (!fs.existsSync(".agent/state/frontend-changed")) {
+    return;
+  }
 
   if (hasScript("impeccable")) {
     run("impeccable", script("impeccable"));

@@ -40,6 +40,14 @@ Issues live in Linear (team: odiniy) via the Linear MCP. See `docs/agents/issue-
 
 Default label vocabulary (needs-triage, needs-info, ready-for-agent, ready-for-human, wontfix). See `docs/agents/triage-labels.md`.
 
+### Issue readiness
+
+Never apply `ready-for-agent` to an implementation issue until an ATDD plan has been attached to that issue. Newly created implementation issues that still need acceptance-test planning must use `needs-atdd`, not `ready-for-agent`. After the ATDD plan is attached with the repo's ATDD planning skill (`plan-atdd-to-issues` / `atdd-plan-for-issue`), the issue can be promoted to `ready-for-agent`.
+
+### Backlog drain
+
+Use the `drain-ready-issues` skill, or the `/drain-ready-queue` shortcut when available, to sequentially complete eligible Linear `ready-for-agent` issues. It composes `take-next-issue`, `execute-ready-issue`, PR merge, Linear `Done`, and the next issue handoff. In Conductor, call `/drain-ready-queue RUN_CONTEXT=conductor WORKSPACE_MODE=per-issue`; it must create the next workspace from latest `origin/main` automatically after each merge. In normal local sessions, refresh with `git checkout main` and `git pull origin main`. Stop on human-only issues, missing ATDD, blocked work, failed checks, unmergeable PRs, dirty unrelated work, or unavailable Conductor workspace creation.
+
 ### Domain docs
 
 Multi-context repo — CONTEXT-MAP.md at root points to per-context CONTEXT.md files. See `docs/agents/domain.md`.
@@ -47,6 +55,8 @@ Multi-context repo — CONTEXT-MAP.md at root points to per-context CONTEXT.md f
 ---
 
 ## Required quality gates
+
+For database integration tests, run `pnpm test:integration:podman` instead of `pnpm test:integration`. The local development environment uses Podman, and the Podman script configures Testcontainers correctly for the ephemeral PostgreSQL database.
 
 If the change is user-facing, the agent must also run the highest-practical smoke/e2e check:
 - UI: Playwright happy path
