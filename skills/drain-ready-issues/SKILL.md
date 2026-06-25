@@ -42,26 +42,26 @@ In local runner mode, do not attempt to create a new thread yourself. Stop with 
 ## Loop
 
 1. Initialize completed count to `0`.
-1. Confirm the local tree is clean before selecting work. If dirty, print `DRAIN_ABORT` and stop.
-1. Run `take-next-issue`.
-1. If no eligible issue exists, print `DRAIN_QUEUE_EMPTY` and stop.
-1. If an issue was claimed, continue with the claimed issue instead of asking the user to paste the handoff.
-1. Run `execute-ready-issue` for the claimed issue and follow its ATDD plan, required commands, and stop conditions exactly.
-1. If execution moves the issue to `Needs Human`, print `DRAIN_NEEDS_HUMAN` and stop.
-1. If execution opens or updates a PR and moves the issue to `PR Open`, identify the PR URL/number and verify its checks.
-1. Wait for required checks to finish. Poll at reasonable intervals; do not busy-loop.
-1. Merge only when all required checks are green, the PR is mergeable, there are no blocking reviews, and there are no unresolved merge conflicts.
-1. After a successful merge, move the Linear issue to `Done` and add a comment with the merged PR URL and merge commit/SHA when available.
-1. Increment completed count.
-1. If completed count is greater than or equal to `MAX_ISSUES`, print `DRAIN_SESSION_COMPLETE` and stop.
-1. If running in a normal local checkout, return to the default branch and refresh it:
+2. Confirm the local tree is clean before selecting work. If dirty, print `DRAIN_ABORT` and stop.
+3. Run `take-next-issue`.
+4. If no eligible issue exists, print `DRAIN_QUEUE_EMPTY` and stop.
+5. If an issue was claimed, continue with the claimed issue instead of asking the user to paste the handoff.
+6. Run `execute-ready-issue` for the claimed issue and follow its ATDD plan, required commands, and stop conditions exactly.
+7. If execution moves the issue to `Needs Human`, print `DRAIN_NEEDS_HUMAN` and stop.
+8. If execution opens or updates a PR and moves the issue to `PR Open`, identify the PR URL/number and verify its checks.
+9. Wait for required checks to finish. Poll at reasonable intervals; do not busy-loop.
+10. Merge only when all required checks are green, the PR is mergeable, there are no blocking reviews, and there are no unresolved merge conflicts.
+11. After a successful merge, move the Linear issue to `Done` and add a comment with the merged PR URL and merge commit/SHA when available.
+12. Increment completed count.
+13. If completed count is greater than or equal to `MAX_ISSUES`, print `DRAIN_SESSION_COMPLETE` and stop.
+14. If running in a normal local checkout, return to the default branch and refresh it:
 
 ```bash
 git checkout main
 git pull origin main
 ```
 
-1. Repeat from the clean-tree check.
+15. Repeat from the clean-tree check.
 
 ## Conductor workspace mode
 
